@@ -12,7 +12,6 @@ namespace Thaipod101
     public class CrawlData
     {
         public List<Examples> MyExamples;
-        //public String Image { set; get; }
 
         public CrawlData()
         {
@@ -24,12 +23,10 @@ namespace Thaipod101
             Debug.WriteLine("Hello Test");
         }
 
-        //public async void DownloadHomepage(String text)
         public async Task<int> DownloadHomepage(String text)
         {
             var httpClient = new HttpClient(); // Xamarin supports HttpClient!
 
-            //Task<string> contentsTask = httpClient.GetStringAsync("http://www.thaipod101.com/widget/wotd/large.php"); // async method!
             var formContent = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("language", "Thai"),
@@ -38,11 +35,7 @@ namespace Thaipod101
 
             var response = await httpClient.PostAsync("http://www.thaipod101.com/widget/wotd/large.php", formContent); // async method!
 
-            // await! control returns to the caller and the task continues to run on another thread
             var stringContent = await response.Content.ReadAsStringAsync();
-            //var byteArray = await response.Content.ReadAsByteArrayAsync();
-            //var stringContent = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
-
 
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(stringContent);
@@ -58,30 +51,23 @@ namespace Thaipod101
             var main = doc.DocumentNode.Descendants("div")
                 .Where(n => n.GetAttributeValue("class", "").Equals("wotd-widget-container-up-inner"))
                 .Single();
-
-            //Debug.WriteLine(main.InnerHtml);
-
+            
             var audio1 = main.Descendants("a")
                 .Select(a => a.Attributes["href"].Value)
                 .First();
-            //Debug.WriteLine(audio1);
 
             var thai1 = main.Descendants("span")
                 .Where(n => n.GetAttributeValue("class", "").Equals("wotd-widget-sentence-main-space-text"))
                 .Single().InnerText.Trim();
-            //Debug.WriteLine(thai1);
 
             var romanize1 = main.Descendants("div")
                 .Where(n => n.GetAttributeValue("class", "").Equals("wotd-widget-sentence-quizmode-space-text  romanization"))
                 .Single().InnerText.Trim();
-            //Debug.WriteLine(romanize1);
 
             var eng1 = main.Descendants("div")
                 .Where(n => n.GetAttributeValue("class", "").Equals("wotd-widget-sentence-quizmode-space-text big english"))
                 .Single().InnerText.Trim();
-            //Debug.WriteLine(eng1);
-
-            //List<Examples> MyExamples = new List<Examples>();
+            
             this.MyExamples.Add(new Examples
             {
                 Thai = new Content
@@ -111,7 +97,6 @@ namespace Thaipod101
                 var audio2 = exampleThai.Descendants("a")
                     .Select(a => a.Attributes["href"].Value)
                     .First();
-                Debug.WriteLine(audio2);
                 var thai2 = exampleThai.Descendants("span")
                 .Where(n => n.GetAttributeValue("class", "").Equals("wotd-widget-sentence-main-space-text"))
                 .Single().InnerText.Trim();
@@ -150,18 +135,7 @@ namespace Thaipod101
                 };
                 i++;
             }
-
-
-            //ResultEditText.Text += "DownloadHomepage method continues after async call. . . . .\n";
-
-            // After contentTask completes, you can calculate the length of the string.
-            //int exampleInt = stringContent.Length;
-
-            //ResultEditText.Text += "Downloaded the html and found out the length.\n\n\n";
-
-            //ResultEditText.Text += contents; // just dump the entire HTML
-
-            //return exampleInt; // Task<TResult> returns an object of type TResult, in this case int
+            
             if (!string.IsNullOrEmpty(this.MyExamples[0].Thai.Text))
             {
                 return 1;

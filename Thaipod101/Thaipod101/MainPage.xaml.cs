@@ -16,6 +16,8 @@ namespace Thaipod101
             InitializeComponent();
             PlayAudioCommand = new Command<String>(PlayAudio);
             datePicker.MaximumDate = DateTime.Now;
+
+            this.SelectedDate(datePicker, new EventArgs());
         }
 
         async void SelectedDate(object sender, EventArgs e)
@@ -71,15 +73,9 @@ namespace Thaipod101
             loading.IsRunning = false;
         }
 
-        //public void PlayAudio(object sender, EventArgs e) {
         public void PlayAudio(String audioFile)
         {
-
             DependencyService.Get<IAudio>().PlayAudioFile(audioFile);
         }
-
-        
-
-
     }
 }

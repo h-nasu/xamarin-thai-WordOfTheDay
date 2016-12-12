@@ -15,17 +15,6 @@ namespace Thaipod101.Droid
 
         public async void PlayAudioFile(string fileName)
         {
-            /*
-            var player = new MediaPlayer();
-            var fd = global::Android.App.Application.Context.Assets.OpenFd(fileName);
-            player.Prepared += (s, e) =>
-            {
-                player.Start();
-            };
-            player.SetDataSource(fd.FileDescriptor, fd.StartOffset, fd.Length);
-            player.Prepare();
-            */
-
             var player = new MediaPlayer();
             //Tell our player to stream music
             player.SetAudioStreamType(Stream.Music);
@@ -39,7 +28,6 @@ namespace Thaipod101.Droid
                 player.Stop();//this will clean up and reset properly.
             };
 
-            //await player.SetDataSourceAsync(ApplicationContext, Android.Net.Uri.Parse(fileName));
             await player.SetDataSourceAsync(Forms.Context, Android.Net.Uri.Parse(fileName));
             player.PrepareAsync();
 
