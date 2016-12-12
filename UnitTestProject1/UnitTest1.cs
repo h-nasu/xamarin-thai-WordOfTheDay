@@ -15,10 +15,17 @@ namespace UnitTestProject1
         public async Task testTests()
         {
             CrawlData crawlData = new CrawlData();
-            crawlData.test();
             int resultTsak = await crawlData.DownloadHomepage("2016-11-20");
             Debug.WriteLine(crawlData.MyExamples[0].Thai.Text);
             Assert.AreEqual<int>(1, resultTsak);
+        }
+
+        [TestMethod]
+        public async Task testTests2()
+        {
+            CrawlData crawlData = new CrawlData();
+            int resultTsak = await crawlData.DownloadHomepage("2010-4-4");
+            Assert.AreEqual<int>(0, resultTsak);
         }
     }
 }

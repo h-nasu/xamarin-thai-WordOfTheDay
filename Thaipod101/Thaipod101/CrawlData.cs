@@ -40,6 +40,12 @@ namespace Thaipod101
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(stringContent);
 
+            var noSentence = doc.DocumentNode.Descendants("div")
+                .Where(n => n.GetAttributeValue("class", "").Equals("no-sentences"));
+            if (noSentence.Any()) {
+                return 0;
+            }
+
             var imageBuff = doc.DocumentNode.Descendants("div")
                 .Where(n => n.GetAttributeValue("class", "").Equals("wotd-widget-container-images-space"))
                 .Single();

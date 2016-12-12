@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 using static Thaipod101.CrawlData;
@@ -16,19 +17,30 @@ namespace Thaipod101
             InitializeComponent();
             PlayAudioCommand = new Command<String>(PlayAudio);
             datePicker.MaximumDate = DateTime.Now;
-
+                        
             this.SelectedDate(datePicker, new EventArgs());
         }
 
         async void SelectedDate(object sender, EventArgs e)
         {
             loading.IsRunning = true;
+            loading.IsVisible = true;
 
             var date = ((DatePicker)sender).Date;
             var text = date.Year + "-" + date.Month + "-" + date.Day;
 
             CrawlData crawlData = new CrawlData();
-            var intResult = await crawlData.DownloadHomepage(text);
+            var intResult = 0;
+
+            try
+            {
+                intResult = await crawlData.DownloadHomepage(text);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+           
             if (intResult == 1)
             {
                 this.MyExamples = crawlData.MyExamples;
@@ -40,7 +52,7 @@ namespace Thaipod101
 
                     var button = new Button
                     {
-                        Text = "Audio",
+                        Text = "Play Audio",
                         Command = PlayAudioCommand,
                         CommandParameter = MyExample.Thai.Audio
                     };
@@ -71,6 +83,7 @@ namespace Thaipod101
             }
 
             loading.IsRunning = false;
+            loading.IsVisible = false;
         }
 
         public void PlayAudio(String audioFile)

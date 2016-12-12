@@ -6,19 +6,20 @@
              xmlns:light="clr-namespace:Xamarin.Forms.Themes;assembly=Xamarin.Forms.Theme.Light"
              x:Class="Thaipod101.MainPage">
     <ScrollView>
-    <StackLayout Padding="20">
+    <StackLayout x:Name="mainLayout" Padding="20">
       <DatePicker x:Name="datePicker" VerticalOptions="Start" Date="{x:Static sys:DateTime.Now}" DateSelected="SelectedDate">
         <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
         <DatePicker.MinimumDate>
           <sys:DateTime x:FactoryMethod="Parse">
             <x:Arguments>
-              <x:String>Jan 1 2000</x:String>
+              <x:String>Apr 5 2010</x:String>
             </x:Arguments>
           </sys:DateTime>
         </DatePicker.MinimumDate>
       </DatePicker>
       
-      <ActivityIndicator x:Name="loading" IsRunning="false" />
+      <ActivityIndicator x:Name="loading" IsRunning="false" IsVisible="false" />
+      
       
       <Image x:Name="mainImage" Source="icon.png" />
       <StackLayout x:Name="exampleArea"></StackLayout>
