@@ -32,9 +32,8 @@ namespace Thaipod101
                 new KeyValuePair<string, string>("language", "Thai"),
                 new KeyValuePair<string, string>("date", text)
             });
-
-            var response = await httpClient.PostAsync("http://www.thaipod101.com/widget/wotd/large.php", formContent); // async method!
-
+            var response = await httpClient.PostAsync("https://www.thaipod101.com/widgets/wotd/large.php", formContent); // async method!
+            
             var stringContent = await response.Content.ReadAsStringAsync();
 
             HtmlDocument doc = new HtmlDocument();
